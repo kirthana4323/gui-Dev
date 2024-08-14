@@ -1,12 +1,6 @@
-# Copyright (c) 2024 The Quranium Core developers
-# Distributed under the MIT software license, see the accompanying
-# file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
 name: CI
 on:
-  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request.
   pull_request:
-  # See: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push.
   push:
     branches:
       - '**'
@@ -20,7 +14,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
-      - name: Determine commit range
+      - name: Install Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install clang ccache build-essential libtool autotools-dev automake pkg-config bsdmainutils python3-zmq libevent-dev libboost-dev libsqlite3-dev libdb++-dev systemtap-sdt-dev libminiupnpc-dev libnatpmp-dev qtbase5-dev qttools5-dev qttools5-dev-tools qtwayland5 libqrencode-dev -y
@@ -39,6 +33,11 @@ jobs:
           ./configure
           ./configure --with-incompatible-bdb
           make -j $(nproc)
-   # make clean && make -j $(nproc) check       ./test/functional/test_runner.py -j $(( $(nproc) * 2 ))
+      - name: unit test
+        run: |
+          make -C src check-unit -j $(nproc)
+      - name: Functional test
+        run: |
+          ./test/functional/test_runner.py -j $(nproc)
 
  
