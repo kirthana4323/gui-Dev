@@ -38,6 +38,7 @@ jobs:
           make -C src check-unit -j $(nproc)
       - name: Functional test
         run: |
-          ./test/functional/test_runner.py -j $(nproc)
+          sudo chmod -R 777 ./test
+          sudo ./test/functional/test_runner.py -j $(nproc)
 
  
