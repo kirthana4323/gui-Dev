@@ -35,7 +35,9 @@ jobs:
       - name: Build
         run: |
           ./autogen.sh 
-          CC=clang CXX=clang++ ./configure
+          CC=clang CXX=clang++ 
+          ./configure
+          ./configure --with-incompatible-bdb
           make -j $(nproc)
    # make clean && make -j $(nproc) check       ./test/functional/test_runner.py -j $(( $(nproc) * 2 ))
 
