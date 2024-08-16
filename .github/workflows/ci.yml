@@ -14,6 +14,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
+      - name: Fix Permissions
+        run: sudo chmod -R 777 /home/kirthana/Downloads/Quranium_Core/gui-Dev/actions-runner/_work/gui-Dev/gui-Dev/test/cache/node0
       - name: Install Dependencies
         run: |
           sudo apt-get update
@@ -26,8 +28,6 @@ jobs:
           sudo apt-get install libdb-dev libdb++-dev
           sudo apt-get install libzmq3-dev
           sudo apt-get install libssl-dev libminiupnpc-dev
-      - name: Fix Permissions
-        run: sudo chmod -R 777 /home/kirthana/Downloads/Quranium_Core/gui-Dev/actions-runner/_work/gui-Dev/gui-Dev/test/cache/node0
       - name: Build
         run: |
           ./autogen.sh 
