@@ -11,7 +11,7 @@ on:
 jobs:
   test-each-commit:
     name: 'test each commit'
-    runs-on: self-hosted
+    runs-on: Linux
     steps:
       - uses: actions/checkout@v4
       - name: Install Dependencies
