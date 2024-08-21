@@ -11,7 +11,7 @@ on:
 jobs:
   test-each-commit:
     name: 'test each commit'
-    runs-on: Linux
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Install Dependencies
