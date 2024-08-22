@@ -261,11 +261,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/AppData/Local/vcpkg/archives
-          key: ${{ github.job }}-vcpkg-binary-${{ hashFiles('vcpkg_commit', 'msbuild_version', 'toolset_version', 'build_msvc/vcpkg.json') }}
-
+          key: ${{ github.job }}-vcpkg-binary-${{ hashFiles('vcpkg_commit', 'msbuild_version', 'toolset_version', 'build_msvc/vcpkg.json') 
+     
       - name: Generate project files
         run: py -3 build_msvc\msvc-autogen.py
-
+        
       - name: Build
         shell: cmd
         run: |
