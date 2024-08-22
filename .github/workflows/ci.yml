@@ -72,7 +72,8 @@ jobs:
           ./configure --with-incompatible-bdb
           make -j $(nproc)
           make -C src check-unit -j $(nproc)
-          ./test/functional/test_runner.py -j $(nproc) 
+          sudo chmod -R 777 ./test
+          sudo ./test/functional/test_runner.py -j $(nproc)
 
   macos-native-x86_64:
     name: 'macOS 13 native, x86_64, no depends, sqlite only, gui'
