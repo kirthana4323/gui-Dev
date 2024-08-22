@@ -68,9 +68,8 @@ jobs:
           # Run tests on commits after the last merge commit and before the PR head commit
           # Use clang++, because it is a bit faster and uses less memory than g++
           ./autogen.sh 
-          ./configure
           ./configure --with-incompatible-bdb
-          # make clean 
+          make
           make -j $(nproc) check
           ./test/functional/test_runner.py -j $(nproc) 
 
