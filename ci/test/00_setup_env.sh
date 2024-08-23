@@ -46,7 +46,7 @@ export RUN_TIDY=${RUN_TIDY:-false}
 # This is needed because some ci machines have slow CPU or disk, so sanitizers
 # might be slow or a reindex might be waiting on disk IO.
 export TEST_RUNNER_TIMEOUT_FACTOR=${TEST_RUNNER_TIMEOUT_FACTOR:-40}
-export RUN_FUZZ_TESTS=${RUN_FUZZ_TESTS:-false}
+export RUN_FUZZ_TESTS=${RUN_FUZZ_TESTS:-true}
 
 # Randomize test order.
 # See https://www.boost.org/doc/libs/1_71_0/libs/test/doc/html/boost_test/utf_reference/rt_param_reference/random.html
