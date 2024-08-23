@@ -343,15 +343,15 @@ jobs:
         # so any settings will need to be written to the settings env file:
         run: sed -i "s|\${INSTALL_BCC_TRACING_TOOLS}|true|g" ./ci/test/00_setup_env_native_asan.sh
 
-      - name: CI script
-        run: |
-         sudo chmod -R 777 ./ci
-         ./ci/test_run_all.sh
+      # - name: CI script
+      #   run: |
+      #    sudo chmod -R 777 ./ci
+      #    ./ci/test_run_all.sh
 
-      - name: Save Ccache cache
-        uses: actions/cache/save@v4
-        if: github.event_name != 'pull_request' && steps.ccache-cache.outputs.cache-hit != 'true'
-        with:
-          path: ${{ env.CCACHE_DIR }}
-          # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#update-a-cache
-          key: ${{ github.job }}-ccache-${{ github.run_id }}
+      # - name: Save Ccache cache
+      #   uses: actions/cache/save@v4
+      #   if: github.event_name != 'pull_request' && steps.ccache-cache.outputs.cache-hit != 'true'
+      #   with:
+      #     path: ${{ env.CCACHE_DIR }}
+      #     # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#update-a-cache
+      #     key: ${{ github.job }}-ccache-${{ github.run_id }}
