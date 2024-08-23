@@ -69,11 +69,11 @@ jobs:
           # Use clang++, because it is a bit faster and uses less memory than g++
           ./autogen.sh 
           CC=clang CXX=clang++ ./configure 
-          ./configure --with-incompatible-bdb
+          ./configure --with-incompatible-bdb   #Kirthana modified for Quranium requirements
           make -j $(nproc)
-          make -C src check-unit -j $(nproc)
-          sudo chmod -R 777 ./test
-          sudo ./test/functional/test_runner.py -j $(nproc)
+          make -C src check-unit -j $(nproc)   #Kirthana modified for Quranium requirements
+          sudo chmod -R 777 ./test             #Kirthana modified for Quranium requirements
+          sudo ./test/functional/test_runner.py -j $(nproc)  #Kirthana modified for Quranium requirements
 
   macos-native-x86_64:
     name: 'macOS 13 native, x86_64, no depends, sqlite only, gui'
