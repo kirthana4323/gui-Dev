@@ -123,7 +123,7 @@ cd "${BASE_BUILD_DIR}"
 
 bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG" || ( (cat config.log) && false)
 
-make 
+make && make -C src check-unit -j7
 
 # cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
 
