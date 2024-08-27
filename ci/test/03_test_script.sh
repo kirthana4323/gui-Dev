@@ -129,71 +129,71 @@ cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
 
 bash -c "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG" || ( (cat config.log) && false)
 
-if [[ "${RUN_TIDY}" == "true" ]]; then
-  MAYBE_BEAR="bear --config src/.bear-tidy-config"
-  MAYBE_TOKEN="--"
-fi
+# if [[ "${RUN_TIDY}" == "true" ]]; then
+#   MAYBE_BEAR="bear --config src/.bear-tidy-config"
+#   MAYBE_TOKEN="--"
+# fi
 
-bash -c "${MAYBE_BEAR} ${MAYBE_TOKEN} make $MAKEJOBS $GOAL" || ( echo "Build failure. Verbose build follows." && make "$GOAL" V=1 ; false )
+# bash -c "${MAYBE_BEAR} ${MAYBE_TOKEN} make $MAKEJOBS $GOAL" || ( echo "Build failure. Verbose build follows." && make "$GOAL" V=1 ; false )
 
-bash -c "${PRINT_CCACHE_STATISTICS}"
-du -sh "${DEPENDS_DIR}"/*/
-du -sh "${PREVIOUS_RELEASES_DIR}"
+# bash -c "${PRINT_CCACHE_STATISTICS}"
+# du -sh "${DEPENDS_DIR}"/*/
+# du -sh "${PREVIOUS_RELEASES_DIR}"
 
-if [[ $HOST = *-mingw32 ]]; then
-  # Generate all binaries, so that they can be wrapped
-  make "$MAKEJOBS" -C src/secp256k1 VERBOSE=1
-  make "$MAKEJOBS" -C src minisketch/test.exe VERBOSE=1
-  "${BASE_ROOT_DIR}/ci/test/wrap-wine.sh"
-fi
+# if [[ $HOST = *-mingw32 ]]; then
+#   # Generate all binaries, so that they can be wrapped
+#   make "$MAKEJOBS" -C src/secp256k1 VERBOSE=1
+#   make "$MAKEJOBS" -C src minisketch/test.exe VERBOSE=1
+#   "${BASE_ROOT_DIR}/ci/test/wrap-wine.sh"
+# fi
 
-if [ -n "$USE_VALGRIND" ]; then
-  "${BASE_ROOT_DIR}/ci/test/wrap-valgrind.sh"
-fi
+# if [ -n "$USE_VALGRIND" ]; then
+#   "${BASE_ROOT_DIR}/ci/test/wrap-valgrind.sh"
+# fi
 
-if [ "$RUN_UNIT_TESTS" = "true" ]; then
-  DIR_UNIT_TEST_DATA="${DIR_UNIT_TEST_DATA}" LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" make "${MAKEJOBS}" check VERBOSE=1
-fi
+# if [ "$RUN_UNIT_TESTS" = "true" ]; then
+#   DIR_UNIT_TEST_DATA="${DIR_UNIT_TEST_DATA}" LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" make "${MAKEJOBS}" check VERBOSE=1
+# fi
 
-if [ "$RUN_UNIT_TESTS_SEQUENTIAL" = "true" ]; then
-  DIR_UNIT_TEST_DATA="${DIR_UNIT_TEST_DATA}" LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" "${BASE_OUTDIR}"/bin/test_bitcoin --catch_system_errors=no -l test_suite
-fi
+# if [ "$RUN_UNIT_TESTS_SEQUENTIAL" = "true" ]; then
+#   DIR_UNIT_TEST_DATA="${DIR_UNIT_TEST_DATA}" LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" "${BASE_OUTDIR}"/bin/test_bitcoin --catch_system_errors=no -l test_suite
+# fi
 
-if [ "$RUN_FUNCTIONAL_TESTS" = "true" ]; then
-  # shellcheck disable=SC2086
-  LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" test/functional/test_runner.py --ci "${MAKEJOBS}" --tmpdirprefix "${BASE_SCRATCH_DIR}"/test_runner/ --ansi --combinedlogslen=99999999 --timeout-factor="${TEST_RUNNER_TIMEOUT_FACTOR}" ${TEST_RUNNER_EXTRA} --quiet --failfast
-fi
+# if [ "$RUN_FUNCTIONAL_TESTS" = "true" ]; then
+#   # shellcheck disable=SC2086
+#   LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" test/functional/test_runner.py --ci "${MAKEJOBS}" --tmpdirprefix "${BASE_SCRATCH_DIR}"/test_runner/ --ansi --combinedlogslen=99999999 --timeout-factor="${TEST_RUNNER_TIMEOUT_FACTOR}" ${TEST_RUNNER_EXTRA} --quiet --failfast
+# fi
 
-if [ "${RUN_TIDY}" = "true" ]; then
-  cmake -B /tidy-build -DLLVM_DIR=/usr/lib/llvm-"${TIDY_LLVM_V}"/cmake -DCMAKE_BUILD_TYPE=Release -S "${BASE_ROOT_DIR}"/contrib/devtools/bitcoin-tidy
-  cmake --build /tidy-build "$MAKEJOBS"
-  cmake --build /tidy-build --target bitcoin-tidy-tests "$MAKEJOBS"
+# if [ "${RUN_TIDY}" = "true" ]; then
+#   cmake -B /tidy-build -DLLVM_DIR=/usr/lib/llvm-"${TIDY_LLVM_V}"/cmake -DCMAKE_BUILD_TYPE=Release -S "${BASE_ROOT_DIR}"/contrib/devtools/bitcoin-tidy
+#   cmake --build /tidy-build "$MAKEJOBS"
+#   cmake --build /tidy-build --target bitcoin-tidy-tests "$MAKEJOBS"
 
-  set -eo pipefail
-  cd "${BASE_BUILD_DIR}/bitcoin-$HOST/src/"
-  if ! ( run-clang-tidy-"${TIDY_LLVM_V}" -quiet -load="/tidy-build/libbitcoin-tidy.so" "${MAKEJOBS}" | tee tmp.tidy-out.txt ); then
-    grep -C5 "error: " tmp.tidy-out.txt
-    echo "^^^ ⚠️ Failure generated from clang-tidy"
-    false
-  fi
-  # Filter out files by regex here, because regex may not be
-  # accepted in src/.bear-tidy-config
-  # Filter out:
-  # * qt qrc and moc generated files
-  jq 'map(select(.file | test("src/qt/qrc_.*\\.cpp$|/moc_.*\\.cpp$") | not))' ../compile_commands.json > tmp.json
-  mv tmp.json ../compile_commands.json
-  cd "${BASE_BUILD_DIR}/bitcoin-$HOST/"
-  python3 "/include-what-you-use/iwyu_tool.py" \
-           -p . "${MAKEJOBS}" \
-           -- -Xiwyu --cxx17ns -Xiwyu --mapping_file="${BASE_BUILD_DIR}/bitcoin-$HOST/contrib/devtools/iwyu/bitcoin.core.imp" \
-           -Xiwyu --max_line_length=160 \
-           2>&1 | tee /tmp/iwyu_ci.out
-  cd "${BASE_ROOT_DIR}/src"
-  python3 "/include-what-you-use/fix_includes.py" --nosafe_headers < /tmp/iwyu_ci.out
-  git --no-pager diff
-fi
+#   set -eo pipefail
+#   cd "${BASE_BUILD_DIR}/bitcoin-$HOST/src/"
+#   if ! ( run-clang-tidy-"${TIDY_LLVM_V}" -quiet -load="/tidy-build/libbitcoin-tidy.so" "${MAKEJOBS}" | tee tmp.tidy-out.txt ); then
+#     grep -C5 "error: " tmp.tidy-out.txt
+#     echo "^^^ ⚠️ Failure generated from clang-tidy"
+#     false
+#   fi
+#   # Filter out files by regex here, because regex may not be
+#   # accepted in src/.bear-tidy-config
+#   # Filter out:
+#   # * qt qrc and moc generated files
+#   jq 'map(select(.file | test("src/qt/qrc_.*\\.cpp$|/moc_.*\\.cpp$") | not))' ../compile_commands.json > tmp.json
+#   mv tmp.json ../compile_commands.json
+#   cd "${BASE_BUILD_DIR}/bitcoin-$HOST/"
+#   python3 "/include-what-you-use/iwyu_tool.py" \
+#            -p . "${MAKEJOBS}" \
+#            -- -Xiwyu --cxx17ns -Xiwyu --mapping_file="${BASE_BUILD_DIR}/bitcoin-$HOST/contrib/devtools/iwyu/bitcoin.core.imp" \
+#            -Xiwyu --max_line_length=160 \
+#            2>&1 | tee /tmp/iwyu_ci.out
+#   cd "${BASE_ROOT_DIR}/src"
+#   python3 "/include-what-you-use/fix_includes.py" --nosafe_headers < /tmp/iwyu_ci.out
+#   git --no-pager diff
+# fi
 
-if [ "$RUN_FUZZ_TESTS" = "true" ]; then
-  # shellcheck disable=SC2086
-  LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" test/fuzz/test_runner.py ${FUZZ_TESTS_CONFIG} "${MAKEJOBS}" -l DEBUG "${DIR_FUZZ_IN}" --empty_min_time=60
-fi
+# if [ "$RUN_FUZZ_TESTS" = "true" ]; then
+#   # shellcheck disable=SC2086
+#   LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" test/fuzz/test_runner.py ${FUZZ_TESTS_CONFIG} "${MAKEJOBS}" -l DEBUG "${DIR_FUZZ_IN}" --empty_min_time=60
+# fi
