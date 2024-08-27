@@ -39,8 +39,8 @@ export MAKEJOBS=${MAKEJOBS:--j4}
 # Whether to prefer BusyBox over GNU utilities
 export USE_BUSY_BOX=${USE_BUSY_BOX:-false}
 
-export RUN_UNIT_TESTS=${RUN_UNIT_TESTS:-false}
-export RUN_FUNCTIONAL_TESTS=${RUN_FUNCTIONAL_TESTS:-false}
+export RUN_UNIT_TESTS=${RUN_UNIT_TESTS:-true}
+export RUN_FUNCTIONAL_TESTS=${RUN_FUNCTIONAL_TESTS:-true}
 export RUN_TIDY=${RUN_TIDY:-false}
 # By how much to scale the test_runner timeouts (option --timeout-factor).
 # This is needed because some ci machines have slow CPU or disk, so sanitizers
@@ -66,7 +66,7 @@ export BASE_BUILD_DIR=${BASE_BUILD_DIR:-$BASE_SCRATCH_DIR/build}
 # The folder for previous release binaries.
 # This folder exists only on the ci guest, and on the ci host as a volume.
 export PREVIOUS_RELEASES_DIR=${PREVIOUS_RELEASES_DIR:-$BASE_ROOT_DIR/prev_releases}
-export CI_BASE_PACKAGES=${CI_BASE_PACKAGES:-build-essential libtool autotools-dev autoconf-archive automake pkg-config bsdmainutils curl ca-certificates ccache python3 rsync git procps bison e2fsprogs cmake} #Kirthana modified for running avx2
+export CI_BASE_PACKAGES=${CI_BASE_PACKAGES:-build-essential libtool autotools-dev automake pkg-config bsdmainutils curl ca-certificates ccache python3 rsync git procps bison e2fsprogs cmake}
 export GOAL=${GOAL:-install}
 export DIR_QA_ASSETS=${DIR_QA_ASSETS:-${BASE_SCRATCH_DIR}/qa-assets}
 export CI_RETRY_EXE=${CI_RETRY_EXE:-"retry --"}
