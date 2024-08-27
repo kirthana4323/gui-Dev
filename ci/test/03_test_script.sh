@@ -118,10 +118,10 @@ else
   ./autogen.sh
 fi
 
-# mkdir -p "${BASE_BUILD_DIR}"
-# cd "${BASE_BUILD_DIR}"
+mkdir -p "${BASE_BUILD_DIR}"
+cd "${BASE_BUILD_DIR}"
 
-# bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG" || ( (cat config.log) && false)
+bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG" || ( (cat config.log) && false)
 
 # make distdir VERSION="$HOST"
 
