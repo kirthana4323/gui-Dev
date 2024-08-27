@@ -58,11 +58,11 @@ if [ "$RUN_FUZZ_TESTS" = "true" ]; then
   if [ ! -d "$DIR_FUZZ_IN" ]; then
     ${CI_RETRY_EXE} git clone --depth=1 https://github.com/bitcoin-core/qa-assets "${DIR_QA_ASSETS}"
   fi
-  (
-    cd "${DIR_QA_ASSETS}"
-    echo "Using qa-assets repo from commit ..."
-    git log -1
-  )
+  # (
+  #   cd "${DIR_QA_ASSETS}"
+  #   echo "Using qa-assets repo from commit ..."
+  #   git log -1
+  # )
 elif [ "$RUN_UNIT_TESTS" = "true" ] || [ "$RUN_UNIT_TESTS_SEQUENTIAL" = "true" ]; then
   export DIR_UNIT_TEST_DATA=${DIR_QA_ASSETS}/unit_test_data/
   if [ ! -d "$DIR_UNIT_TEST_DATA" ]; then
@@ -160,8 +160,13 @@ if [ "$RUN_UNIT_TESTS_SEQUENTIAL" = "true" ]; then
 fi
 
 if [ "$RUN_FUNCTIONAL_TESTS" = "true" ]; then
-  # shellcheck disable=SC2086
-  LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" test/functional/test_runner.py --ci "${MAKEJOBS}" --tmpdirprefix "${BASE_SCRATCH_DIR}"/test_runner/ --ansi --combinedlogslen=99999999 --timeout-factor="${TEST_RUNNER_TIMEOUT_FACTOR}" ${TEST_RUNNER_EXTRA} --quiet --failfast || true
+  if [ -f "test/functional/test_runner.py" ]; then
+    chmod +x test/functional/test_runner.py
+    LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" test/functional/test_runner.py --ci "${MAKEJOBS}" --tmpdirprefix "${BASE_SCRATCH_DIR}"/test_runner/ --ansi --combinedlogslen=99999999 --timeout-factor="${TEST_RUNNER_TIMEOUT_FACTOR}" ${TEST_RUNNER_EXTRA} --quiet --failfast
+  else
+    echo "Error: test_runner.py not found or not executable"
+    exit 1
+  fi
 fi
 
 if [ "${RUN_TIDY}" = "true" ]; then
