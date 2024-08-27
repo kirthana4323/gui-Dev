@@ -26,7 +26,7 @@ jobs:
   test-each-commit:
     name: 'test each commit'
     runs-on: ubuntu-24.04
-    #if: github.event_name == 'pull_request' && github.event.pull_request.commits != 1
+    if: github.event_name == 'pull_request' && github.event.pull_request.commits != 1
     timeout-minutes: 360  # Use maximum time, see https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idtimeout-minutes. Assuming a worst case time of 1 hour per commit, this leads to a --max-count=6 below.
     env:
       MAX_COUNT: 6
@@ -121,7 +121,9 @@ jobs:
           restore-keys: ${{ github.job }}-ccache-
 
       - name: CI script
-        run: ./ci/test_run_all.sh
+        run: |
+         sudo chmod -R 777 ./ci
+         ./ci/test_run_all.sh
 
       - name: Save Ccache cache
         uses: actions/cache/save@v4
@@ -133,7 +135,7 @@ jobs:
 
   win64-native:
     name: 'Win64 native, VS 2022'
-    #if: github.event_name == 'pull_request' && github.event.pull_request.commits != 1
+    if: github.event_name == 'pull_request' && github.event.pull_request.commits != 1
     # Use latest image, but hardcode version to avoid silent upgrades (and breaks).
     # See: https://github.com/actions/runner-images#available-images.
     runs-on: windows-2022
