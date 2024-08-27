@@ -77,7 +77,7 @@ jobs:
 
   macos-native-x86_64:
     name: 'macOS 13 native, x86_64, no depends, sqlite only, gui'
-    #if: github.event_name == 'pull_request' && github.event.pull_request.commits != 1
+    if: github.event_name == 'pull_request' && github.event.pull_request.commits != 1
     # Use latest image, but hardcode version to avoid silent upgrades (and breaks).
     # See: https://github.com/actions/runner-images#available-images.
     runs-on: macos-13
