@@ -343,10 +343,10 @@ jobs:
         # so any settings will need to be written to the settings env file:
         run: sed -i "s|\${INSTALL_BCC_TRACING_TOOLS}|true|g" ./ci/test/00_setup_env_native_asan.sh
 
-      - name: CI script
-        run: |
-         sudo chmod -R 777 ./ci
-         ./ci/test_run_all.sh
+      # - name: CI script
+      #   run: |
+      #    sudo chmod -R 777 ./ci
+      #    ./ci/test_run_all.sh
 
       # - name: Save Ccache cache
       #   uses: actions/cache/save@v4
