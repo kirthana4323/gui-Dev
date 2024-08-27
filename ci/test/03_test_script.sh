@@ -118,16 +118,16 @@ else
   ./autogen.sh
 fi
 
-mkdir -p "${BASE_BUILD_DIR}"
-cd "${BASE_BUILD_DIR}"
+# mkdir -p "${BASE_BUILD_DIR}"
+# cd "${BASE_BUILD_DIR}"
 
-bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG" || ( (cat config.log) && false)
+# bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG" || ( (cat config.log) && false)
 
-make distdir VERSION="$HOST"
+# make distdir VERSION="$HOST"
 
-cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
+# cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
 
-bash -c "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG" || ( (cat config.log) && false)
+# bash -c "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG" || ( (cat config.log) && false)
 
 # if [[ "${RUN_TIDY}" == "true" ]]; then
 #   MAYBE_BEAR="bear --config src/.bear-tidy-config"
