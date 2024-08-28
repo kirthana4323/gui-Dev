@@ -132,7 +132,8 @@ cd /ci_container_base/src/sphincsplus/.libs
 ls -al 
 
 cd /ci_container_base/ci/scratch/build
-make -C src check-unit-j7
+#make -C src check-unit-j7
+make check
 #make clean
 #make -j7
 
