@@ -133,8 +133,6 @@ ls -al
 
 cd /ci_container_base/ci/scratch/build
 #make && make -C src check-unit-j7
-sudo apt-get update
-sudo apt-get install autoconf-archive
 make clean
 make -j7
 
