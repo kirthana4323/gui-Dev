@@ -123,8 +123,9 @@ cd "${BASE_BUILD_DIR}"
 
 bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG" || ( (cat config.log) && false)
 
-make -j7
-echo $(HOST)
+cd /ci_container_base/src/sphincsplus/
+make
+#make -j7
 
 # cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
 
