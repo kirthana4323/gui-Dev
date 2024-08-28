@@ -125,9 +125,10 @@ bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_AL
 
 cd /ci_container_base/src/sphincsplus
 ./configure
-#ls -al
-# cd /ci_container_base/src/sphincsplus
- make
+make
+
+cd /ci_container_base/ci/scratch/build
+make && make -C src check-unit -j7
 #make -j7
 
 # cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
