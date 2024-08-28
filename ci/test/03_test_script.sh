@@ -125,15 +125,18 @@ bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_AL
 
 cd /ci_container_base/src/sphincsplus
 ./configure
-make
+make -j7
 
 ls -al
 cd /ci_container_base/src/sphincsplus/.libs
 ls -al 
 
 cd /ci_container_base/ci/scratch/build
-make && make -C src check-unit -j7
-#make -j7
+#make && make -C src check-unit-j7
+sudo apt-get update
+sudo apt-get install autoconf-archive
+make clean
+make -j7
 
 # cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
 
