@@ -129,8 +129,8 @@ make
 
 ls -al
 
-# cd /ci_container_base/ci/scratch/build
-# make && make -C src check-unit -j7
+cd /ci_container_base/ci/scratch/build
+make && make -C src check-unit -j7
 #make -j7
 
 # cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
