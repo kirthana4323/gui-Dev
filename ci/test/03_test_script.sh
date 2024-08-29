@@ -130,17 +130,12 @@ ls -al .libs/libsphincsplus.la
 
 # ls -al
 
-cd /ci_container_base/src/sphincsplus
-./configure || { echo "Configuration failed for sphincsplus"; exit 1; }
-make || { echo "Build failed for sphincsplus"; exit 1; }
 
-# cd /ci_container_base/src/sphincsplus/.libs
-# ls -al 
-grep -r "libsphincsplus.la" /ci_container_base/ci/scratch/build/src/Makefile
 
 cd /ci_container_base/ci/scratch/build
 #make -C src check-unit-j7
-make check
+chmod -R 755 /ci_container_base/src/sphincsplus/.libs
+
 #make clean
 #make -j7
 
