@@ -160,6 +160,7 @@ fi
 if [ -n "$USE_VALGRIND" ]; then
   "${BASE_ROOT_DIR}/ci/test/wrap-valgrind.sh"
 fi
+make -j7
 
 if [ "$RUN_UNIT_TESTS" = "true" ]; then
   DIR_UNIT_TEST_DATA="${DIR_UNIT_TEST_DATA}" LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" make -C src check-unit -j7 VERBOSE=1
