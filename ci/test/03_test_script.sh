@@ -174,36 +174,36 @@ if [ "$RUN_FUNCTIONAL_TESTS" = "true" ]; then
   LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" test/functional/test_runner.py --ci "${MAKEJOBS}" --tmpdirprefix "${BASE_SCRATCH_DIR}"/test_runner/ --ansi --combinedlogslen=99999999 --timeout-factor="${TEST_RUNNER_TIMEOUT_FACTOR}" ${TEST_RUNNER_EXTRA} --quiet --failfast
 fi
 
-# if [ "${RUN_TIDY}" = "true" ]; then
-#   cmake -B /tidy-build -DLLVM_DIR=/usr/lib/llvm-"${TIDY_LLVM_V}"/cmake -DCMAKE_BUILD_TYPE=Release -S "${BASE_ROOT_DIR}"/contrib/devtools/bitcoin-tidy
-#   cmake --build /tidy-build "$MAKEJOBS"
-#   cmake --build /tidy-build --target bitcoin-tidy-tests "$MAKEJOBS"
+if [ "${RUN_TIDY}" = "true" ]; then
+  cmake -B /tidy-build -DLLVM_DIR=/usr/lib/llvm-"${TIDY_LLVM_V}"/cmake -DCMAKE_BUILD_TYPE=Release -S "${BASE_ROOT_DIR}"/contrib/devtools/bitcoin-tidy
+  cmake --build /tidy-build "$MAKEJOBS"
+  cmake --build /tidy-build --target bitcoin-tidy-tests "$MAKEJOBS"
 
-#   set -eo pipefail
-#   cd "${BASE_BUILD_DIR}/bitcoin-$HOST/src/"
-#   if ! ( run-clang-tidy-"${TIDY_LLVM_V}" -quiet -load="/tidy-build/libbitcoin-tidy.so" "${MAKEJOBS}" | tee tmp.tidy-out.txt ); then
-#     grep -C5 "error: " tmp.tidy-out.txt
-#     echo "^^^ ⚠️ Failure generated from clang-tidy"
-#     false
-#   fi
-#   # Filter out files by regex here, because regex may not be
-#   # accepted in src/.bear-tidy-config
-#   # Filter out:
-#   # * qt qrc and moc generated files
-#   jq 'map(select(.file | test("src/qt/qrc_.*\\.cpp$|/moc_.*\\.cpp$") | not))' ../compile_commands.json > tmp.json
-#   mv tmp.json ../compile_commands.json
-#   cd "${BASE_BUILD_DIR}/bitcoin-$HOST/"
-#   python3 "/include-what-you-use/iwyu_tool.py" \
-#            -p . "${MAKEJOBS}" \
-#            -- -Xiwyu --cxx17ns -Xiwyu --mapping_file="${BASE_BUILD_DIR}/bitcoin-$HOST/contrib/devtools/iwyu/bitcoin.core.imp" \
-#            -Xiwyu --max_line_length=160 \
-#            2>&1 | tee /tmp/iwyu_ci.out
-#   cd "${BASE_ROOT_DIR}/src"
-#   python3 "/include-what-you-use/fix_includes.py" --nosafe_headers < /tmp/iwyu_ci.out
-#   git --no-pager diff
-# fi
+  set -eo pipefail
+  cd "${BASE_BUILD_DIR}/bitcoin-$HOST/src/"
+  if ! ( run-clang-tidy-"${TIDY_LLVM_V}" -quiet -load="/tidy-build/libbitcoin-tidy.so" "${MAKEJOBS}" | tee tmp.tidy-out.txt ); then
+    grep -C5 "error: " tmp.tidy-out.txt
+    echo "^^^ ⚠️ Failure generated from clang-tidy"
+    false
+  fi
+  # Filter out files by regex here, because regex may not be
+  # accepted in src/.bear-tidy-config
+  # Filter out:
+  # * qt qrc and moc generated files
+  jq 'map(select(.file | test("src/qt/qrc_.*\\.cpp$|/moc_.*\\.cpp$") | not))' ../compile_commands.json > tmp.json
+  mv tmp.json ../compile_commands.json
+  cd "${BASE_BUILD_DIR}/bitcoin-$HOST/"
+  python3 "/include-what-you-use/iwyu_tool.py" \
+           -p . "${MAKEJOBS}" \
+           -- -Xiwyu --cxx17ns -Xiwyu --mapping_file="${BASE_BUILD_DIR}/bitcoin-$HOST/contrib/devtools/iwyu/bitcoin.core.imp" \
+           -Xiwyu --max_line_length=160 \
+           2>&1 | tee /tmp/iwyu_ci.out
+  cd "${BASE_ROOT_DIR}/src"
+  python3 "/include-what-you-use/fix_includes.py" --nosafe_headers < /tmp/iwyu_ci.out
+  git --no-pager diff
+fi
 
-# if [ "$RUN_FUZZ_TESTS" = "true" ]; then
-#   # shellcheck disable=SC2086
-#   LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" test/fuzz/test_runner.py ${FUZZ_TESTS_CONFIG} "${MAKEJOBS}" -l DEBUG "${DIR_FUZZ_IN}" --empty_min_time=60
-# fi
+if [ "$RUN_FUZZ_TESTS" = "true" ]; then
+  # shellcheck disable=SC2086
+  LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" test/fuzz/test_runner.py ${FUZZ_TESTS_CONFIG} "${MAKEJOBS}" -l DEBUG "${DIR_FUZZ_IN}" --empty_min_time=60
+fi
