@@ -126,6 +126,9 @@ bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_AL
 cd /ci_container_base/src/sphincsplus
 ./configure
 make -j7
+ls -al 
+cd /ci_container_base/src/sphincsplus/.libs
+ls -al
 
 cd /ci_container_base/ci/scratch/build
 #make -C src check-unit-j7
