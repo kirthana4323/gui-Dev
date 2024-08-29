@@ -160,6 +160,7 @@ fi
 if [ -n "$USE_VALGRIND" ]; then
   "${BASE_ROOT_DIR}/ci/test/wrap-valgrind.sh"
 fi
+cd /ci_container_base/ci/scratch/build
 make -j7
 
 if [ "$RUN_UNIT_TESTS" = "true" ]; then
