@@ -144,22 +144,22 @@ if [[ "${RUN_TIDY}" == "true" ]]; then
   MAYBE_TOKEN="--"
 fi
 
-# bash -c "${MAYBE_BEAR} ${MAYBE_TOKEN} make $MAKEJOBS $GOAL" || ( echo "Build failure. Verbose build follows." && make "$GOAL" V=1 ; false )
+bash -c "${MAYBE_BEAR} ${MAYBE_TOKEN} make $MAKEJOBS $GOAL" || ( echo "Build failure. Verbose build follows." && make "$GOAL" V=1 ; false )
 
-# bash -c "${PRINT_CCACHE_STATISTICS}"
-# du -sh "${DEPENDS_DIR}"/*/
-# du -sh "${PREVIOUS_RELEASES_DIR}"
+bash -c "${PRINT_CCACHE_STATISTICS}"
+du -sh "${DEPENDS_DIR}"/*/
+du -sh "${PREVIOUS_RELEASES_DIR}"
 
-# if [[ $HOST = *-mingw32 ]]; then
-#   # Generate all binaries, so that they can be wrapped
-#   make "$MAKEJOBS" -C src/secp256k1 VERBOSE=1
-#   make "$MAKEJOBS" -C src minisketch/test.exe VERBOSE=1
-#   "${BASE_ROOT_DIR}/ci/test/wrap-wine.sh"
-# fi
+if [[ $HOST = *-mingw32 ]]; then
+  # Generate all binaries, so that they can be wrapped
+  make "$MAKEJOBS" -C src/secp256k1 VERBOSE=1
+  make "$MAKEJOBS" -C src minisketch/test.exe VERBOSE=1
+  "${BASE_ROOT_DIR}/ci/test/wrap-wine.sh"
+fi
 
-# if [ -n "$USE_VALGRIND" ]; then
-#   "${BASE_ROOT_DIR}/ci/test/wrap-valgrind.sh"
-# fi
+if [ -n "$USE_VALGRIND" ]; then
+  "${BASE_ROOT_DIR}/ci/test/wrap-valgrind.sh"
+fi
 
 # if [ "$RUN_UNIT_TESTS" = "true" ]; then
 #   DIR_UNIT_TEST_DATA="${DIR_UNIT_TEST_DATA}" LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" make "${MAKEJOBS}" check VERBOSE=1
