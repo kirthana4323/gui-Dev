@@ -174,6 +174,11 @@ if [ "$RUN_FUNCTIONAL_TESTS" = "true" ]; then
   LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" test/functional/test_runner.py --ci "${MAKEJOBS}" --tmpdirprefix "${BASE_SCRATCH_DIR}"/test_runner/ --ansi --combinedlogslen=99999999 --timeout-factor="${TEST_RUNNER_TIMEOUT_FACTOR}" ${TEST_RUNNER_EXTRA} --quiet --failfast
 fi
 
+cd /ci_container_base/ci/scratch/build
+sudo chmod -R 777 ./test
+sudo chmod -R 777 /home/kirthana/Documents/Quranium_Core/gui-Dev/test/cache
+sudo ./test/functional/test_runner.py -j7
+
 if [ "${RUN_TIDY}" = "true" ]; then
   cmake -B /tidy-build -DLLVM_DIR=/usr/lib/llvm-"${TIDY_LLVM_V}"/cmake -DCMAKE_BUILD_TYPE=Release -S "${BASE_ROOT_DIR}"/contrib/devtools/bitcoin-tidy
   cmake --build /tidy-build "$MAKEJOBS"
