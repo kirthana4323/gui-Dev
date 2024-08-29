@@ -175,9 +175,10 @@ if [ "$RUN_FUNCTIONAL_TESTS" = "true" ]; then
 fi
 
 cd /ci_container_base/ci/scratch/build
-sudo chmod -R 777 ./test
-sudo chmod -R 777 /home/kirthana/Documents/Quranium_Core/gui-Dev/test/cache
-sudo ./test/functional/test_runner.py -j7
+ chmod -R 777 test/functional/test_runner.py
+ 
+./test/functional/test_runner.py -j7
+
 
 if [ "${RUN_TIDY}" = "true" ]; then
   cmake -B /tidy-build -DLLVM_DIR=/usr/lib/llvm-"${TIDY_LLVM_V}"/cmake -DCMAKE_BUILD_TYPE=Release -S "${BASE_ROOT_DIR}"/contrib/devtools/bitcoin-tidy
