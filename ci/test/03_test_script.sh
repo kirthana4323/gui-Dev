@@ -123,17 +123,18 @@ cd "${BASE_BUILD_DIR}"
 
 bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG" || ( (cat config.log) && false)
 
-cd /ci_container_base/src/sphincsplus
-./configure
-make -j7
-ls -al 
-cd /ci_container_base/src/sphincsplus/.libs
-ls -al
+make distdir VERSION="$HOST"
+# cd /ci_container_base/src/sphincsplus
+# ./configure
+# make -j7
+# ls -al 
+# cd /ci_container_base/src/sphincsplus/.libs
+# ls -al
 
-cd /ci_container_base/ci/scratch/build
-#make -C src check-unit-j7
-chmod -R 777 /ci_container_base/src/sphincsplus/.libs
-make -j7
+# cd /ci_container_base/ci/scratch/build
+# #make -C src check-unit-j7
+# chmod -R 777 /ci_container_base/src/sphincsplus/.libs
+# make -j7
 
 # cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
 
