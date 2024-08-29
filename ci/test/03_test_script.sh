@@ -161,9 +161,9 @@ if [ -n "$USE_VALGRIND" ]; then
   "${BASE_ROOT_DIR}/ci/test/wrap-valgrind.sh"
 fi
 
-# if [ "$RUN_UNIT_TESTS" = "true" ]; then
-#   DIR_UNIT_TEST_DATA="${DIR_UNIT_TEST_DATA}" LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" make "${MAKEJOBS}" check VERBOSE=1
-# fi
+if [ "$RUN_UNIT_TESTS" = "true" ]; then
+  DIR_UNIT_TEST_DATA="${DIR_UNIT_TEST_DATA}" LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" make "${MAKEJOBS}" check VERBOSE=1
+fi
 
 # if [ "$RUN_UNIT_TESTS_SEQUENTIAL" = "true" ]; then
 #   DIR_UNIT_TEST_DATA="${DIR_UNIT_TEST_DATA}" LD_LIBRARY_PATH="${DEPENDS_DIR}/${HOST}/lib" "${BASE_OUTDIR}"/bin/test_bitcoin --catch_system_errors=no -l test_suite
