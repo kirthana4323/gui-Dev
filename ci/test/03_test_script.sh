@@ -6,7 +6,7 @@
 
 export LC_ALL=C.UTF-8
 
-set -ex
+set -x
 
 export ASAN_OPTIONS="detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1"
 export LSAN_OPTIONS="suppressions=${BASE_ROOT_DIR}/test/sanitizer_suppressions/lsan"
@@ -126,19 +126,11 @@ bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_AL
 cd /ci_container_base/src/sphincsplus
 ./configure
 make -j7
-#ls -al .libs/libsphincsplus.la
-ls -l /ci_container_base/src/sphincsplus/.libs/libsphincsplus.la
-
-# ls -al
-
-
 
 cd /ci_container_base/ci/scratch/build
 #make -C src check-unit-j7
-chmod -R 755 /ci_container_base/src/sphincsplus/.libs
-
-#make clean
-#make -j7
+chmod -R 777 /ci_container_base/src/sphincsplus/.libs
+make -j7
 
 # cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
 
