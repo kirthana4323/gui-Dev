@@ -126,7 +126,8 @@ bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_AL
 cd /ci_container_base/src/sphincsplus
 ./configure
 make -j7
-ls -al .libs/libsphincsplus.la
+#ls -al .libs/libsphincsplus.la
+ls -l /ci_container_base/src/sphincsplus/.libs/libsphincsplus.la
 
 # ls -al
 
