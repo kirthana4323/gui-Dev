@@ -82,7 +82,7 @@ jobs:
           sudo chmod -R 777 ./test             
           sudo ./test/functional/test_runner.py -j $(nproc) 
           #else
-          git rebase --exec "echo Running test-one-commit on \$( git log -1 ) && ./autogen.sh && CC=clang CXX=clang++ ./configure && make clean && make -j $(nproc) check && ./test/functional/test_runner.py -j $(( $(nproc) * 2 ))" ${{ env.TEST_BASE }}
+          #git rebase --exec "echo Running test-one-commit on \$( git log -1 ) && ./autogen.sh && CC=clang CXX=clang++ ./configure && make clean && make -j $(nproc) check && ./test/functional/test_runner.py -j $(( $(nproc) * 2 ))" ${{ env.TEST_BASE }}
           #endif
 
   macos-native-x86_64:
