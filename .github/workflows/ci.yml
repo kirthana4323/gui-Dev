@@ -66,6 +66,8 @@ jobs:
           sudo apt-get update
           #ifdef USE_SPHINCSPLUS  
           sudo apt-get install clang ccache build-essential libtool autoconf-archive autotools-dev automake pkg-config bsdmainutils python3-zmq libevent-dev libboost-dev libsqlite3-dev libdb++-dev systemtap-sdt-dev libminiupnpc-dev libnatpmp-dev qtbase5-dev qttools5-dev qttools5-dev-tools qtwayland5 libqrencode-dev -y
+          #else
+          sudo apt-get install clang ccache build-essential libtool autotools-dev automake pkg-config bsdmainutils python3-zmq libevent-dev libboost-dev libsqlite3-dev libdb++-dev systemtap-sdt-dev libminiupnpc-dev libnatpmp-dev qtbase5-dev qttools5-dev qttools5-dev-tools qtwayland5 libqrencode-dev -y
           #enfif
       - name: Compile and run tests
         run: |
@@ -79,17 +81,18 @@ jobs:
           make -C src check-unit -j $(nproc)   
           sudo chmod -R 777 ./test             
           sudo ./test/functional/test_runner.py -j $(nproc) 
+          #else
+          git rebase --exec "echo Running test-one-commit on \$( git log -1 ) && ./autogen.sh && CC=clang CXX=clang++ ./configure && make clean && make -j $(nproc) check && ./test/functional/test_runner.py -j $(( $(nproc) * 2 ))" ${{ env.TEST_BASE }}
           #endif
 
   macos-native-x86_64:
     name: 'macOS 13 native, x86_64, no depends, sqlite only, gui'
-    if: github.event_name == 'pull_request' && github.event.pull_request.commits != 1
     # Use latest image, but hardcode version to avoid silent upgrades (and breaks).
     # See: https://github.com/actions/runner-images#available-images.
     runs-on: macos-13
 
     # No need to run on the read-only mirror, unless it is a PR.
-    #if: github.repository != 'bitcoin-core/gui' || github.event_name == 'pull_request'
+    if: github.repository != 'bitcoin-core/gui' || github.event_name == 'pull_request'
 
     timeout-minutes: 120
 
@@ -128,8 +131,12 @@ jobs:
 
       - name: CI script
         run: |
+         #ifdef USE_SPHINCSPLUS  
          sudo chmod -R 777 ./ci
          ./ci/test_run_all.sh
+         #else
+         ./ci/test_run_all.sh
+         #endif
 
       - name: Save Ccache cache
         uses: actions/cache/save@v4
@@ -141,7 +148,6 @@ jobs:
 
   win64-native:
     name: 'Win64 native, VS 2022'
-    #if: github.event_name == 'pull_request' && github.event.pull_request.commits != 1
     # Use latest image, but hardcode version to avoid silent upgrades (and breaks).
     # See: https://github.com/actions/runner-images#available-images.
     runs-on: windows-2022
