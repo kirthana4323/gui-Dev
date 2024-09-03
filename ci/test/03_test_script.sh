@@ -133,7 +133,7 @@ bash -c "${BASE_ROOT_DIR}/configure --cache-file=config.cache $BITCOIN_CONFIG_AL
 # cd /ci_container_base/ci/scratch/build
 # #make -C src check-unit-j7
 # chmod -R 777 /ci_container_base/src/sphincsplus/.libs
-make VERSION="$HOST"
+#make VERSION="$HOST"
 
 cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
 
