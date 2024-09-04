@@ -115,6 +115,22 @@ BITCOIN_CONFIG_ALL="${BITCOIN_CONFIG_ALL} --enable-external-signer --prefix=$BAS
 if [ -n "$CONFIG_SHELL" ]; then
   "$CONFIG_SHELL" -c "./autogen.sh"
 else
+  sudo apt-get update
+  sudo apt-get install autoconf
+  sudo apt-get install pkg-config
+  sudo apt-get install libtool
+  sudo apt-get update
+  sudo apt-get install build-essential
+  sudo apt-get update
+  sudo apt-get install libboost-all-dev
+  sudo apt-get update
+  sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
+  sudo apt-get install libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libboost-    thread-dev
+  sudo apt-get install libsqlite3-dev
+  sudo apt-get install libdb-dev libdb++-dev
+  sudo apt-get install libzmq3-dev
+  sudo apt-get install libssl-dev libminiupnpc-dev
+
   ./autogen.sh
 fi
 

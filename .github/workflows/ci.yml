@@ -357,23 +357,23 @@ jobs:
         # so any settings will need to be written to the settings env file:
         run: sed -i "s|\${INSTALL_BCC_TRACING_TOOLS}|true|g" ./ci/test/00_setup_env_native_asan.sh
 
-      - name: install all dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install autoconf
-          sudo apt-get install pkg-config
-          sudo apt-get install libtool
-          sudo apt-get update
-          sudo apt-get install build-essential
-          sudo apt-get update
-          sudo apt-get install libboost-all-dev
-          sudo apt-get update
-          sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
-          sudo apt-get install libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libboost-    thread-dev
-          sudo apt-get install libsqlite3-dev
-          sudo apt-get install libdb-dev libdb++-dev
-          sudo apt-get install libzmq3-dev
-          sudo apt-get install libssl-dev libminiupnpc-dev
+      # - name: install all dependencies
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install autoconf
+      #     sudo apt-get install pkg-config
+      #     sudo apt-get install libtool
+      #     sudo apt-get update
+      #     sudo apt-get install build-essential
+      #     sudo apt-get update
+      #     sudo apt-get install libboost-all-dev
+      #     sudo apt-get update
+      #     sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
+      #     sudo apt-get install libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libboost-    thread-dev
+      #     sudo apt-get install libsqlite3-dev
+      #     sudo apt-get install libdb-dev libdb++-dev
+      #     sudo apt-get install libzmq3-dev
+      #     sudo apt-get install libssl-dev libminiupnpc-dev
 
       - name: CI script
         run: |
