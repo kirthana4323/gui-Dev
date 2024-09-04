@@ -115,21 +115,21 @@ BITCOIN_CONFIG_ALL="${BITCOIN_CONFIG_ALL} --enable-external-signer --prefix=$BAS
 if [ -n "$CONFIG_SHELL" ]; then
   "$CONFIG_SHELL" -c "./autogen.sh"
 else
-  apt-get update
-  apt-get install autoconf
-  apt-get install pkg-config
-  apt-get install libtool
-  apt-get update
-  apt-get install build-essential
-  apt-get update
-  apt-get install libboost-all-dev
-  apt-get update
-  apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
-  apt-get install libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libboost-    thread-dev
-  apt-get install libsqlite3-dev
-  apt-get install libdb-dev libdb++-dev
-  apt-get install libzmq3-dev
-  apt-get install libssl-dev libminiupnpc-dev
+  apt-get update -y
+  apt-get install -y autoconf
+  apt-get install -y -config
+  apt-get install -y libtool
+  apt-get update -y
+  apt-get install -y build-essential
+  apt-get update -y
+  apt-get install -y libboost-all-dev
+  apt-get update -y
+  apt-get install -y build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
+  apt-get install -y libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libboost-    thread-dev
+  apt-get install -y libsqlite3-dev
+  apt-get install -y libdb-dev libdb++-dev
+  apt-get install -y libzmq3-dev
+  apt-get install -y libssl-dev libminiupnpc-dev
 
   ./autogen.sh
 fi
