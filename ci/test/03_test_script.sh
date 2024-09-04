@@ -116,20 +116,22 @@ if [ -n "$CONFIG_SHELL" ]; then
   "$CONFIG_SHELL" -c "./autogen.sh"
 else
   apt-get update -y
-  apt-get install -y autoconf
-  apt-get install -y -config
-  apt-get install -y libtool
+  # apt-get install -y autoconf
+  # apt-get install -y -config
+  # apt-get install -y libtool
+  # apt-get update -y
+  # apt-get install -y build-essential
+  # apt-get update -y
+  # apt-get install -y libboost-all-dev
+  # apt-get update -y
+  # apt-get install -y build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
+  # apt-get install -y libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libboost-    thread-dev
+  # apt-get install -y libsqlite3-dev
+  # apt-get install -y libdb-dev libdb++-dev
+  # apt-get install -y libzmq3-dev
+  # apt-get install -y libssl-dev libminiupnpc-dev
+  apt-get install -y autoconf pkg-config libtool build-essential libboost-all-dev libevent-dev libsqlite3-dev libdb-dev libdb++-dev libzmq3-dev libssl-dev libminiupnpc-dev
   apt-get update -y
-  apt-get install -y build-essential
-  apt-get update -y
-  apt-get install -y libboost-all-dev
-  apt-get update -y
-  apt-get install -y build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
-  apt-get install -y libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libboost-    thread-dev
-  apt-get install -y libsqlite3-dev
-  apt-get install -y libdb-dev libdb++-dev
-  apt-get install -y libzmq3-dev
-  apt-get install -y libssl-dev libminiupnpc-dev
 
   ./autogen.sh
 fi
