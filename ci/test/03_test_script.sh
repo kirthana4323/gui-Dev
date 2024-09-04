@@ -133,6 +133,7 @@ else
   apt-get install -y autoconf pkg-config libtool build-essential libboost-all-dev libevent-dev libsqlite3-dev libdb-dev libdb++-dev libzmq3-dev libssl-dev libminiupnpc-dev
   apt-get update -y
   cd /ci_container_base/src/sphincsplus
+  ./autogen.sh
   ./configure
   make
   ls /ci_container_base/src/sphincsplus/libsphincsplus.la
