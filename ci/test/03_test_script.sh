@@ -132,15 +132,10 @@ else
   # apt-get install -y libssl-dev libminiupnpc-dev
   apt-get install -y autoconf pkg-config libtool build-essential libboost-all-dev libevent-dev libsqlite3-dev libdb-dev libdb++-dev libzmq3-dev libssl-dev libminiupnpc-dev
   apt-get update -y
-  cd /ci_container_base/src/sphincsplus
-  mkdir build
-  cd build
-  cmake ..
-  make
-  cd /ci_container_base/src/sphincsplus
+  autoreconf -fiv
   ./autogen.sh
-  ./configure
-  make
+  # ./configure
+  # make
   # ls /ci_container_base/src/sphincsplus/libsphincsplus.la
   # cd /ci_container_base/src/sphincsplus
   # ./configure
